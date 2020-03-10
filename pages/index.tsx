@@ -1,7 +1,12 @@
 import React from "react";
 // import classNames from 'classnames';
 // import Head from 'next/head'
-import { Mosaic, MosaicWindow, MosaicZeroState } from "react-mosaic-component";
+import {
+  Mosaic,
+  MosaicNode,
+  MosaicWindow,
+  MosaicZeroState
+} from "react-mosaic-component";
 
 // import { CloseAdditionalControlsButton } from "../components/CloseAdditionalControlsButton";
 
@@ -11,10 +16,14 @@ let windowCount = 3;
 //   <CloseAdditionalControlsButton />
 // ]);
 
-// const EMPTY_ARRAY = [];
+// const EMPTY_ARRAY: any[] = [];
 
-class Home extends React.Component {
-  state = {
+export interface ExampleAppState {
+  currentNode: MosaicNode<number> | null;
+}
+
+class Home extends React.PureComponent<{}, ExampleAppState> {
+  state: ExampleAppState = {
     currentNode: {
       direction: "row",
       first: 1,
@@ -24,30 +33,23 @@ class Home extends React.Component {
         second: 3
       },
       splitPercentage: 40
-    },
-    currentTheme: "None"
+    }
   };
 
   render() {
     return (
       <React.StrictMode>
         <div className="react-mosaic-example-app">
-          <Mosaic
+          <Mosaic<number>
             renderTile={(count, path) => (
-              <MosaicWindow
+              <MosaicWindow<number>
                 /* additionalControls={count === 3 ? additionalControls : EMPTY_ARRAY} */
                 title={`Window ${count}`}
                 createNode={this.createNode}
                 path={path}
-                onDragStart={() => console.log("MosaicWindow.onDragStart")}
-                onDragEnd={type => console.log("MosaicWindow.onDragEnd", type)}
-                renderToolbar={
-                  count === 2
-                    ? () => (
-                        <div className="toolbar-example">Custom Toolbar</div>
-                      )
-                    : null
-                }
+                onDragStart={() => console.log('MosaicWindow.onDragStart')}
+                onDragEnd={(type) => console.log('MosaicWindow.onDragEnd', type)}
+                renderToolbar={count === 2 ? () => <div className="toolbar-example">Custom Toolbar</div> : null}
               >
                 <div className="example-window">
                   <h1>{`Window ${count}`}</h1>
@@ -65,15 +67,15 @@ class Home extends React.Component {
     );
   }
 
-  onChange = currentNode => {
+  private onChange = (currentNode: MosaicNode<number> | null) => {
     this.setState({ currentNode });
   };
 
-  onRelease = currentNode => {
-    console.log("Mosaic.onRelease():", currentNode);
+  private onRelease = (currentNode: MosaicNode<number> | null) => {
+    console.log('Mosaic.onRelease():', currentNode);
   };
 
-  createNode = () => ++windowCount;
+  private createNode = () => ++windowCount;
 }
 
 export default Home;
