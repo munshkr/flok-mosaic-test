@@ -8,15 +8,15 @@ import {
   MosaicZeroState
 } from "react-mosaic-component";
 
-// import { CloseAdditionalControlsButton } from "../components/CloseAdditionalControlsButton";
+import { CloseAdditionalControlsButton } from "../components/CloseAdditionalControlsButton";
 
 let windowCount = 3;
 
-// const additionalControls = React.Children.toArray([
-//   <CloseAdditionalControlsButton />
-// ]);
+const additionalControls = React.Children.toArray([
+  <CloseAdditionalControlsButton />
+]);
 
-// const EMPTY_ARRAY: any[] = [];
+const EMPTY_ARRAY: any[] = [];
 
 export interface ExampleAppState {
   currentNode: MosaicNode<number> | null;
@@ -43,13 +43,21 @@ class Home extends React.PureComponent<{}, ExampleAppState> {
           <Mosaic<number>
             renderTile={(count, path) => (
               <MosaicWindow<number>
-                /* additionalControls={count === 3 ? additionalControls : EMPTY_ARRAY} */
+                additionalControls={
+                  count === 3 ? additionalControls : EMPTY_ARRAY
+                }
                 title={`Window ${count}`}
                 createNode={this.createNode}
                 path={path}
-                onDragStart={() => console.log('MosaicWindow.onDragStart')}
-                onDragEnd={(type) => console.log('MosaicWindow.onDragEnd', type)}
-                renderToolbar={count === 2 ? () => <div className="toolbar-example">Custom Toolbar</div> : null}
+                onDragStart={() => console.log("MosaicWindow.onDragStart")}
+                onDragEnd={type => console.log("MosaicWindow.onDragEnd", type)}
+                renderToolbar={
+                  count === 2
+                    ? () => (
+                        <div className="toolbar-example">Custom Toolbar</div>
+                      )
+                    : null
+                }
               >
                 <div className="example-window">
                   <h1>{`Window ${count}`}</h1>
@@ -72,7 +80,7 @@ class Home extends React.PureComponent<{}, ExampleAppState> {
   };
 
   private onRelease = (currentNode: MosaicNode<number> | null) => {
-    console.log('Mosaic.onRelease():', currentNode);
+    console.log("Mosaic.onRelease():", currentNode);
   };
 
   private createNode = () => ++windowCount;
