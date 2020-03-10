@@ -1,6 +1,6 @@
 import React from 'react'
-import { Classes } from '@blueprintjs/core';
-import classNames from 'classnames';
+// import { Classes } from '@blueprintjs/core';
+// import classNames from 'classnames';
 // import Head from 'next/head'
 import { Mosaic, MosaicNode, MosaicWindow, MosaicZeroState } from 'react-mosaic-component';
 
@@ -8,11 +8,13 @@ import { Mosaic, MosaicNode, MosaicWindow, MosaicZeroState } from 'react-mosaic-
 
 let windowCount = 3;
 
+/*
 const THEMES = {
   ['Blueprint']: 'mosaic-blueprint-theme',
   ['Blueprint Dark']: classNames('mosaic-blueprint-theme', Classes.DARK),
   ['None']: '',
 };
+*/
 
 // const additionalControls = React.Children.toArray([<CloseAdditionalControlsButton />]);
 
@@ -58,7 +60,7 @@ class Home extends React.Component {
             value={this.state.currentNode}
             onChange={this.onChange}
             onRelease={this.onRelease}
-            className={THEMES[this.state.currentTheme]}
+            className=''
           />
         </div>
       </React.StrictMode>
