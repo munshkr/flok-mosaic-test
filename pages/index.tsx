@@ -1,6 +1,7 @@
 import React from "react";
-// import classNames from 'classnames';
+import { Classes } from "@blueprintjs/core";
 // import Head from 'next/head'
+import classNames from "classnames";
 import {
   Mosaic,
   MosaicNode,
@@ -68,7 +69,7 @@ class Home extends React.PureComponent<{}, ExampleAppState> {
             value={this.state.currentNode}
             onChange={this.onChange}
             onRelease={this.onRelease}
-            className=""
+            className={classNames("mosaic-blueprint-theme", Classes.DARK)}
           />
         </div>
       </React.StrictMode>
