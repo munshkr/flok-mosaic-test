@@ -19,7 +19,6 @@ class TextBuffer extends React.Component {
           .CodeMirror {
             font-family: Monaco, monospace;
             font-size: 14px;
-            height: 100vh;
           }
         `}</style>
       </React.Fragment>

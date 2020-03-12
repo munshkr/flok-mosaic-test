@@ -1,50 +1,78 @@
 import React from "react";
 import { Classes } from "@blueprintjs/core";
 import classNames from "classnames";
-import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
-import { CloseAdditionalControlsButton } from "../components/CloseAdditionalControlsButton";
+import {
+  Mosaic,
+  MosaicNode,
+  MosaicWindow,
+  MosaicZeroState
+} from "react-mosaic-component";
+import AdditionalControls from "../components/AdditionalControls";
 import TextBuffer from "../components/TextBuffer";
+import {
+  ExpandButton,
+  RemoveButton,
+  SplitButton
+} from "react-mosaic-component";
 
-let windowCount = 3;
+const knownTargets = ["default", "tidal", "foxdot", "sclang", "hydra"];
+const defaultTarget = knownTargets[0];
 
-const additionalControls = React.Children.toArray([
-  <CloseAdditionalControlsButton />
+const toolbarControls = React.Children.toArray([
+  <SplitButton />,
+  <ExpandButton />,
+  <RemoveButton />
 ]);
 
-const initialValue: MosaicNode<number> = {
-  direction: "row",
-  first: 1,
-  second: {
-    direction: "column",
-    first: 2,
-    second: 3
-  },
-  splitPercentage: 40
-};
+const initialValue: MosaicNode<number> = 1;
 
-class Home extends React.PureComponent<{}, { windowCount: number }> {
+let windowCount = 1;
+
+type HomeState = { targets: { [id: number]: string }; windowCount: number };
+
+class Home extends React.PureComponent<{}, HomeState> {
+  state: HomeState = {
+    windowCount,
+    targets: {}
+  };
+
+  private handleTargetSelect = (count: number, target: string) => {
+    console.log(`[${count}] Select target:`, target);
+    this.setState(prevState => ({
+      targets: { [count]: target, ...prevState.targets }
+    }));
+  };
+
   render() {
+    const { targets } = this.state;
+
     return (
       <React.StrictMode>
         <div className="react-mosaic-example-app">
           <Mosaic<number>
-            renderTile={(count, path) => (
-              <MosaicWindow<number>
-                additionalControls={additionalControls}
-                title={`Window ${count}`}
-                createNode={this.createNode}
-                path={path}
-                renderToolbar={
-                  count === 2
-                    ? () => (
-                        <div className="toolbar-example">Custom Toolbar</div>
-                      )
-                    : null
-                }
-              >
-                <TextBuffer editorId={`editor-${count}`} />
-              </MosaicWindow>
-            )}
+            renderTile={(count, path) => {
+              const target = targets[count] || defaultTarget;
+              return (
+                <MosaicWindow<number>
+                  additionalControls={
+                    <AdditionalControls
+                      knownTargets={knownTargets}
+                      target={target}
+                      onTargetSelect={(t: string) =>
+                        this.handleTargetSelect(count, t)
+                      }
+                    />
+                  }
+                  additionalControlButtonText=""
+                  toolbarControls={toolbarControls}
+                  title={`${target} ${count}`}
+                  createNode={this.createNode}
+                  path={path}
+                >
+                  <TextBuffer />
+                </MosaicWindow>
+              );
+            }}
             initialValue={initialValue}
             className={classNames("mosaic-blueprint-theme", Classes.DARK)}
           />
