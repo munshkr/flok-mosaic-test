@@ -67,6 +67,7 @@ class Home extends React.PureComponent<{}, HomeState> {
                 </MosaicWindow>
               );
             }}
+            onChange={this.handleChange}
             initialValue={initialValue}
             className={classNames("mosaic-blueprint-theme", Classes.DARK)}
           />
@@ -74,6 +75,10 @@ class Home extends React.PureComponent<{}, HomeState> {
       </React.StrictMode>
     );
   }
+
+  private handleChange = (currentNode: MosaicNode<number> | null) => {
+    console.log("onChange:", currentNode);
+  };
 
   private handleTargetSelect = (count: number, target: string) => {
     console.log(`[${count}] Select target:`, target);
