@@ -104,7 +104,8 @@
     }
 
     .mosaic-window-additional-actions-bar {
-      transition: height 250ms;
+      top: 22px;
+      transition: height 0ms;
       box-shadow: 0 1px 1px @pt-divider-black;
 
       .@{ns}-button {
@@ -119,6 +120,10 @@
     &.additional-controls-open {
       .mosaic-window-toolbar {
         box-shadow: 0 1px 0 @pt-elevation-shadow-0;
+      }
+
+      .mosaic-window-additional-actions-bar {
+        height: 20px;
       }
     }
 
