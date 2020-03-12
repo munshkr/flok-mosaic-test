@@ -20,8 +20,8 @@ class TextBuffer extends React.Component {
     const { value } = this.state;
     const options = {
       mode,
-      theme: "material",
-      lineNumbers: true
+      theme: "material-darker",
+      lineNumbers: false
     };
 
     return (
@@ -31,6 +31,7 @@ class TextBuffer extends React.Component {
           .CodeMirror {
             font-family: Monaco, monospace;
             font-size: 14px;
+            height: 100vh;
           }
         `}</style>
       </React.Fragment>
