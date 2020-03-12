@@ -8,6 +8,7 @@ import {
   MosaicWindow,
   MosaicZeroState
 } from "react-mosaic-component";
+import TextBuffer from "../components/TextBuffer";
 
 import { CloseAdditionalControlsButton } from "../components/CloseAdditionalControlsButton";
 
@@ -57,7 +58,7 @@ class Home extends React.PureComponent<{}, ExampleAppState> {
                 }
               >
                 <div className="example-window">
-                  <h1>{`Window ${count}`}</h1>
+                  <TextBuffer />
                 </div>
               </MosaicWindow>
             )}
