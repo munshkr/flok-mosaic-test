@@ -1,16 +1,9 @@
 import React from "react";
 import { Classes } from "@blueprintjs/core";
-// import Head from 'next/head'
 import classNames from "classnames";
-import {
-  Mosaic,
-  MosaicNode,
-  MosaicWindow,
-  MosaicZeroState
-} from "react-mosaic-component";
-import TextBuffer from "../components/TextBuffer";
-
+import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
 import { CloseAdditionalControlsButton } from "../components/CloseAdditionalControlsButton";
+import TextBuffer from "../components/TextBuffer";
 
 let windowCount = 3;
 
@@ -18,24 +11,18 @@ const additionalControls = React.Children.toArray([
   <CloseAdditionalControlsButton />
 ]);
 
-export interface ExampleAppState {
-  currentNode: MosaicNode<number> | null;
-}
+const initialValue: MosaicNode<number> = {
+  direction: "row",
+  first: 1,
+  second: {
+    direction: "column",
+    first: 2,
+    second: 3
+  },
+  splitPercentage: 40
+};
 
-class Home extends React.PureComponent<{}, ExampleAppState> {
-  state: ExampleAppState = {
-    currentNode: {
-      direction: "row",
-      first: 1,
-      second: {
-        direction: "column",
-        first: 2,
-        second: 3
-      },
-      splitPercentage: 40
-    }
-  };
-
+class Home extends React.PureComponent<{}, { windowCount: number }> {
   render() {
     return (
       <React.StrictMode>
@@ -47,8 +34,6 @@ class Home extends React.PureComponent<{}, ExampleAppState> {
                 title={`Window ${count}`}
                 createNode={this.createNode}
                 path={path}
-                onDragStart={() => console.log("MosaicWindow.onDragStart")}
-                onDragEnd={type => console.log("MosaicWindow.onDragEnd", type)}
                 renderToolbar={
                   count === 2
                     ? () => (
@@ -57,29 +42,16 @@ class Home extends React.PureComponent<{}, ExampleAppState> {
                     : null
                 }
               >
-                <div className="example-window">
-                  <TextBuffer />
-                </div>
+                <TextBuffer editorId={`editor-${count}`} />
               </MosaicWindow>
             )}
-            zeroStateView={<MosaicZeroState createNode={this.createNode} />}
-            value={this.state.currentNode}
-            onChange={this.onChange}
-            onRelease={this.onRelease}
+            initialValue={initialValue}
             className={classNames("mosaic-blueprint-theme", Classes.DARK)}
           />
         </div>
       </React.StrictMode>
     );
   }
-
-  private onChange = (currentNode: MosaicNode<number> | null) => {
-    this.setState({ currentNode });
-  };
-
-  private onRelease = (currentNode: MosaicNode<number> | null) => {
-    console.log("Mosaic.onRelease():", currentNode);
-  };
 
   private createNode = () => ++windowCount;
 }
