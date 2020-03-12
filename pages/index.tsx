@@ -1,7 +1,12 @@
 import React from "react";
 import { Classes } from "@blueprintjs/core";
 import classNames from "classnames";
-import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
+import {
+  Mosaic,
+  MosaicNode,
+  MosaicWindow,
+  MosaicZeroState
+} from "react-mosaic-component";
 import AdditionalControls from "../components/AdditionalControls";
 import TextBuffer from "../components/TextBuffer";
 import {
@@ -69,6 +74,7 @@ class Home extends React.PureComponent<{}, HomeState> {
             }}
             onChange={this.handleChange}
             initialValue={initialValue}
+            zeroStateView={<MosaicZeroState createNode={this.createNode} />}
             className={classNames("mosaic-blueprint-theme", Classes.DARK)}
           />
         </div>
