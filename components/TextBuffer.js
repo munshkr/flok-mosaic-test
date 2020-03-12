@@ -1,4 +1,14 @@
 import { UnControlled as CodeMirror } from "react-codemirror2";
+import dynamic from "next/dynamic";
+
+// Modes used by known REPLs
+
+if (typeof window !== "undefined" && typeof window.navigator !== "undefined") {
+  import("codemirror/mode/javascript/javascript");
+  import("codemirror/mode/python/python");
+  import("codemirror/mode/haskell/haskell");
+  import("codemirror/mode/smalltalk/smalltalk");
+}
 
 class TextBuffer extends React.Component {
   state = {
@@ -6,11 +16,13 @@ class TextBuffer extends React.Component {
   };
 
   render() {
+    const { mode } = this.props;
+    const { value } = this.state;
     const options = {
+      mode,
       theme: "material",
       lineNumbers: true
     };
-    const { value } = this.state;
 
     return (
       <React.Fragment>

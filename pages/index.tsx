@@ -1,12 +1,7 @@
 import React from "react";
 import { Classes } from "@blueprintjs/core";
 import classNames from "classnames";
-import {
-  Mosaic,
-  MosaicNode,
-  MosaicWindow,
-  MosaicZeroState
-} from "react-mosaic-component";
+import { Mosaic, MosaicNode, MosaicWindow } from "react-mosaic-component";
 import AdditionalControls from "../components/AdditionalControls";
 import TextBuffer from "../components/TextBuffer";
 import {
@@ -17,6 +12,12 @@ import {
 
 const knownTargets = ["default", "tidal", "foxdot", "sclang", "hydra"];
 const defaultTarget = knownTargets[0];
+const modesByTarget = {
+  tidal: "haskell",
+  foxdot: "python",
+  sclang: "smalltalk",
+  hydra: "javascript"
+};
 
 const toolbarControls = React.Children.toArray([
   <SplitButton />,
@@ -34,13 +35,6 @@ class Home extends React.PureComponent<{}, HomeState> {
   state: HomeState = {
     windowCount,
     targets: {}
-  };
-
-  private handleTargetSelect = (count: number, target: string) => {
-    console.log(`[${count}] Select target:`, target);
-    this.setState(prevState => ({
-      targets: { [count]: target, ...prevState.targets }
-    }));
   };
 
   render() {
@@ -69,7 +63,7 @@ class Home extends React.PureComponent<{}, HomeState> {
                   createNode={this.createNode}
                   path={path}
                 >
-                  <TextBuffer />
+                  <TextBuffer mode={modesByTarget[target]} />
                 </MosaicWindow>
               );
             }}
@@ -80,6 +74,13 @@ class Home extends React.PureComponent<{}, HomeState> {
       </React.StrictMode>
     );
   }
+
+  private handleTargetSelect = (count: number, target: string) => {
+    console.log(`[${count}] Select target:`, target);
+    this.setState(prevState => ({
+      targets: { ...prevState.targets, [count]: target }
+    }));
+  };
 
   private createNode = () => ++windowCount;
 }
